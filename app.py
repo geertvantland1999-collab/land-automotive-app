@@ -649,20 +649,27 @@ def page_settings():
 # =========================
 
 def main():
+    # Basisconfig
     st.set_page_config(page_title="Land Automotive – Inkoop & Dossier", layout="wide")
     init_state()
 
     # Sidebar
     st.sidebar.title("Land Automotive")
-if "active_page" not in st.session_state:
-    st.session_state["active_page"] = "Dashboard"
 
-page = st.sidebar.radio(
-    "Menu",
-    ["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"],
-    index=["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"].index(st.session_state["active_page"])
-)
+    # Zorg dat active_page altijd bestaat
+    if "active_page" not in st.session_state:
+        st.session_state["active_page"] = "Dashboard"
 
+    # Menu in de sidebar
+    page = st.sidebar.radio(
+        "Menu",
+        ["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"],
+        index=["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"].index(
+            st.session_state["active_page"]
+        ),
+    )
+
+    # Routering naar de juiste pagina
     if page == "Dashboard":
         st.session_state["active_page"] = "Dashboard"
         page_dashboard()
