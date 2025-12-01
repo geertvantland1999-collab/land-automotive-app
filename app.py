@@ -654,11 +654,14 @@ def main():
 
     # Sidebar
     st.sidebar.title("Land Automotive")
-    page = st.sidebar.radio(
-        "Menu",
-        ["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"],
-        key="active_page"
-    )
+if "active_page" not in st.session_state:
+    st.session_state["active_page"] = "Dashboard"
+
+page = st.sidebar.radio(
+    "Menu",
+    ["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"],
+    index=["Dashboard", "Nieuwe auto", "Dossier", "Facturen", "Klanten", "Relaties", "Instellingen"].index(st.session_state["active_page"])
+)
 
     if page == "Dashboard":
         st.session_state["active_page"] = "Dashboard"
