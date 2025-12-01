@@ -18,7 +18,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 
-MODEL_NAME = "gemini-1.5-pro-latest"
+MODEL_NAME = "gemini-1.5-pro"
 
 
 # =========================
