@@ -18,7 +18,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 
-MODEL_NAME = "gemini-1.5-pro"
+MODEL_NAME = "gemini-1.5-pro-latest"
 
 
 # =========================
@@ -177,14 +177,22 @@ Zet velden netjes onder elkaar.
 # =========================
 
 def call_gemini(system_prompt: str, user_content: str) -> str:
+    """Roep Gemini aan met een system-instructie + user-tekst."""
     if not GEMINI_API_KEY:
         return "⚠️ Geen GEMINI_API_KEY ingesteld. Zet deze in de Streamlit Secrets."
 
-    model = genai.GenerativeModel(MODEL_NAME)
-    response = model.generate_content(
-        [system_prompt, "\n\nGEBRUIKERSINVOER:\n", user_content]
-    )
-    return response.text or ""
+    try:
+        model = genai.GenerativeModel(
+            MODEL_NAME,
+            system_instruction=system_prompt,
+        )
+        response = model.generate_content(
+            user_content,
+        )
+        return response.text or ""
+    except Exception as e:
+        # Toon de fouttekst in de app zodat we weten wat er misgaat
+        return f"⚠️ Fout bij aanroepen van Gemini: {e}"
 
 
 def init_state():
